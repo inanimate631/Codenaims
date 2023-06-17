@@ -1,0 +1,41 @@
+.container {
+  top: 15%;
+  position: absolute;
+  width: 10%;
+  height: 60%;
+}
+
+.red {
+  left: 0;
+  background-color: rgba(255, 106, 106, 0.2);
+  border-left: 6px solid #f81717;
+}
+
+.blue {
+  right: 0;
+  background-color: rgba(57, 115, 173, 0.2);
+  border-right: 6px solid #0053a7;
+}
+
+.players {
+  width: 100%;
+  padding: 15px;
+}
+
+.master {
+  font-size: 22px;
+  line-height: 23px;
+  border-bottom: 2px dashed #fff;
+}
+
+.player {
+  margin-top: 5px;
+  border-top: 1px solid #fff;
+}
+
+.join{
+  margin-top: 5px;
+  font-size: 18px;
+  line-height: 20px;
+  border-bottom: 2px dashed #fff;
+}
