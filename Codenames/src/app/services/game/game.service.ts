@@ -12,7 +12,7 @@ import { wordsArrays } from './wordArrays';
 export class GameService {
   wordsSubject$ = new Subject<string[]>();
 
-  url = 'http://localhost:5000';
+  url = 'https://codenames-server.onrender.com';
 
   masterWordsSubject$ = new Subject<MasterWords>();
 
