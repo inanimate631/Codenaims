@@ -1,0 +1,33 @@
+<button class="button" (click)="gameStart()" *ngIf="isAdmin">
+  {{ btnName }}
+</button>
+
+<button class="settings-btn" (click)="showBlock = !showBlock">
+  <img
+    src="/assets/cogwheel1_80343.svg"
+    alt="btn setting"
+    class="icon-btn--setting"
+  />
+</button>
+
+<div class="setting" [ngClass]="{ 'display-block': showBlock }">
+  <div class="botón" (click)="gamePause()" [class.active]="!isGamePause">
+    <div class="fondo" x="0" y="0"></div>
+    <div class="icono">
+      <div class="parte izquierda" x="0" y="0" fill="#fff"></div>
+      <div class="parte derecha" x="0" y="0" fill="#fff"></div>
+    </div>
+    <div class="puntero"></div>
+  </div>
+
+  <mat-form-field class="form">
+    <mat-label>Difficulty</mat-label>
+    <mat-select [(value)]="selected" (selectionChange)="onSelectChange($event)">
+      <mat-option value="0">Easy</mat-option>
+      <mat-option value="1">Medium</mat-option>
+      <mat-option value="2">Hard</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="placeholder" [class.active]="isGamePause"></div>

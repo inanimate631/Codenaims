@@ -1,3 +1,46 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$Codenames-primary: mat.define-palette(mat.$grey-palette, 900, 900);
+$Codenames-accent: mat.define-palette(mat.$green-palette, 700, 700);
+
+// The warn palette is optional (defaults to red).
+$Codenames-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$Codenames-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $Codenames-primary,
+      accent: $Codenames-accent,
+      warn: $Codenames-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($Codenames-theme);
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300&display=swap");
+
+.cdk-overlay-container {
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+}
+
 body {
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
@@ -8,6 +51,7 @@ body {
   background-color: #ffffff;
   color: #363636;
   letter-spacing: 0.1px;
+  font-family: "Bebas Neue", sans-serif;
 }
 
 *,
@@ -62,9 +106,14 @@ select {
   font: inherit;
 }
 
-button{
+button {
   background-color: transparent;
   border: none;
   color: #fff;
   cursor: pointer;
+}
+
+html,
+body {
+  height: 100%;
 }

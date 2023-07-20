@@ -1,5 +1,10 @@
 <div class="container">
+  <app-new-player></app-new-player>
+
   <app-team [teamName]="'red'"></app-team>
   <app-team [teamName]="'blue'"></app-team>
   <app-field></app-field>
+  <app-game></app-game>
 </div>
+
+<div class="gameEnd" *ngIf="isGameEnd"></div>

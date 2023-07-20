@@ -2,10 +2,141 @@
   class="container"
   [ngClass]="{ red: teamName === 'red', blue: teamName === 'blue' }"
 >
+  <div
+    class="words-counter"
+    [ngStyle]="{
+      color:
+        teamName === 'red'
+          ? 'rgba(255, 106, 106, 0.5)'
+          : 'rgba(57, 115, 173, 0.5)'
+    }"
+  >
+    {{ wordAmount }}
+  </div>
   <div class="players">
-    <button class="master">Become master</button>
-    <div class="player">
-      <button class="join">Join team</button>
+    <div class="master__players">
+      <div class="main__user" *ngIf="user && user.role === 'Master' + teamName">
+        <button
+          class="user__color-btn"
+          [ngStyle]="{ 'background-color': user.color }"
+          (click)="this.UserService.changeColor()"
+        ></button>
+        <input
+          type="text"
+          maxlength="10"
+          class="user__name-btn"
+          [style.width.px]="user.name.length * 11 + 15"
+          [(ngModel)]="name"
+          (click)="this.UserService.startEditing()"
+          (blur)="this.UserService.stopEditing(name)"
+        />
+      </div>
+      <div class="team" *ngIf="master">
+        <button
+          class="user__color-btn"
+          [ngStyle]="{ 'background-color': master.color }"
+        ></button>
+        <p class="user__name-btn">
+          {{ master.name }}
+        </p>
+      </div>
     </div>
+    <button
+      class="master"
+      (click)="joinMaster()"
+      *ngIf="user && user.role !== 'Master' + teamName && !master"
+    >
+      Become master
+    </button>
+
+    <div class="player">
+      <div class="main__user" *ngIf="user && user.role === teamName">
+        <button
+          class="user__color-btn"
+          [ngStyle]="{ 'background-color': user.color }"
+          (click)="this.UserService.changeColor()"
+        ></button>
+        <input
+          type="text"
+          maxlength="10"
+          class="user__name-btn"
+          [style.width.px]="user.name.length * 11 + 15"
+          [(ngModel)]="name"
+          (click)="this.UserService.startEditing()"
+          (blur)="this.UserService.stopEditing(name)"
+        />
+      </div>
+      <div class="team" *ngFor="let user of team">
+        <button
+          class="user__color-btn"
+          [ngStyle]="{ 'background-color': user.color }"
+        ></button>
+        <p class="user__name-btn">
+          {{ user.name }}
+        </p>
+      </div>
+      <button class="join" (click)="joinTeam()" *ngIf="user?.role !== teamName">
+        Join team
+      </button>
+    </div>
+  </div>
+  <div class="word__info">
+    <div class="timer__wrapper">
+      Log
+      <div class="timer">
+        <div class="timer-time" ng>{{ time }}</div>
+      </div>
+    </div>
+    <input
+      type="text"
+      maxlength="15"
+      *ngIf="
+        user &&
+        user.role === 'Master' + teamName &&
+        teamMoveColor &&
+        teamMoveColor === teamName &&
+        !isTeamMove
+      "
+      class="word__input"
+      [(ngModel)]="inputWord"
+    />
+    <button
+      [class.redPlus]="teamName === 'red'"
+      [class.bluePlus]="teamName === 'blue'"
+      class="set-word"
+      *ngIf="
+        user &&
+        user.role === 'Master' + teamName &&
+        teamMoveColor &&
+        teamMoveColor === teamName &&
+        !isTeamMove
+      "
+      (click)="addWords()"
+    ></button>
+    <div class="game__words" *ngIf="teamName === 'red'">
+      <span class="game-word" *ngFor="let word of redGameWord">{{ word }}</span>
+    </div>
+    <div class="game__words" *ngIf="teamName === 'blue'">
+      <span class="game-word" *ngFor="let word of blueGameWord">{{
+        word
+      }}</span>
+    </div>
+  </div>
+  <div class="end" *ngIf="teamMoveColor === teamName && isTeamMove">
+    <div class="turn">
+      <button class="end-turn" (click)="endTurn()">End turn</button>
+      <div
+        class="colors"
+        *ngFor="let color of teamEndTurn"
+        [style.backgroundColor]="color.color"
+      ></div>
+    </div>
+    <div
+      class="progress-line"
+      *ngIf="isAllPlayersChoice()"
+      [ngStyle]="{
+        'background-color': teamMoveColor === 'red' ? '#f81717' : '#0053a7'
+      }"
+    ></div>
   </div>
 </div>

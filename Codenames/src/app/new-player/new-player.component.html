@@ -1,0 +1,29 @@
+<div class="user__wrapper">
+  Spectators:
+  <div class="main__user" *ngIf="user.role === 'Spectators'">
+    <button
+      class="user__color-btn"
+      [ngStyle]="{ 'background-color': user.color }"
+      (click)="this.UserService.changeColor()"
+    ></button>
+    <input
+      type="text"
+      maxlength="10"
+      class="user__name-btn"
+      [style.width.px]="user.name.length * 11 + 15"
+      [(ngModel)]="name"
+      (click)="this.UserService.startEditing()"
+      (blur)="this.UserService.stopEditing(name)"
+    />
+  </div>
+
+  <div class="user" *ngFor="let user of usersArray">
+    <button
+      class="user__color-btn"
+      [ngStyle]="{ 'background-color': user.color }"
+    ></button>
+    <p class="user__name-btn">
+      {{ user.name }}
+    </p>
+  </div>
+</div>
