@@ -4,8 +4,9 @@ const path = require("path");
 const socketIO = require("socket.io");
 const requestIp = require("request-ip");
 const corsOptions = {
-  origin: "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app/", // Разрешенный источник (origin)
-  methods: ["GET", "POST"], // Разрешенные HTTP-методы
+  origin:
+    "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app", 
+  methods: ["GET", "POST"], 
 };
 const cors = require("cors");
 
@@ -13,7 +14,8 @@ const app = express();
 const server = http.Server(app);
 const io = socketIO(server, {
   cors: {
-    origin: "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app/",
+    origin:
+      "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app",
     methods: ["GET", "POST"],
   },
 });
@@ -24,8 +26,11 @@ app.use(requestIp.mw());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app/"); // Установите правильный origin вашего Angular-приложения
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST"); // Установите разрешенные методы запросов
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   next();
 });
 let connectedUsers = [];
