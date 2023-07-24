@@ -12,7 +12,7 @@ import { wordsArrays } from './wordArrays';
 export class GameService {
   wordsSubject$ = new Subject<string[]>();
 
-  url = 'http://localhost:5000';
+  url = 'https://codenames-server.onrender.com';
 
   masterWordsSubject$ = new Subject<MasterWords>();
 
@@ -297,13 +297,18 @@ export class GameService {
     );
   }
 
-  setWordsShowed(id: number) {
-    this.http.post(`${this.url}/setWordsShowed`, { id: id }).subscribe(
-      () => {},
-      (error) => {
-        console.error('Error:', error);
-      }
-    );
+  async setWordsShowed(id: number) {
+    return new Promise((resolve, reject) => {
+      this.http.post(`${this.url}/setWordsShowed`, { id: id }).subscribe(
+        () => {
+          resolve(true);
+        },
+        (error) => {
+          console.error('Error:', error);
+          reject(error);
+        }
+      );
+    });
   }
 
   changeIsTeamMove(isTeamMove: boolean) {

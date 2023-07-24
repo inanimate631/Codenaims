@@ -122,7 +122,6 @@ export class FieldComponent implements OnInit, OnDestroy {
 
     this.socket.on('/getWordsShowed', (wordsShowed: WordsShowed) => {
       this.wordsShowed = wordsShowed;
-      console.log(wordsShowed)
       if (!this.user?.isMaster) {
         this.blueWords = wordsShowed.blueWords;
         this.redWords = wordsShowed.redWords;
@@ -255,27 +254,21 @@ export class FieldComponent implements OnInit, OnDestroy {
 
   showWord(id: number) {
     clearTimeout(this.wordtimeout);
-    this.wordtimeout = setTimeout(() => {
+    this.wordtimeout = setTimeout(async () => {
       if (!this.isAllPlayersChoice(id)) {
         return;
       }
-      this.GameService.setWordsShowed(id);
-      if (
-        this.masterWordsObj?.redWords.includes(id) &&
-        !this.redWords.includes(id)
-      ) {
-        this.redWords.push(id);
+      await this.GameService.setWordsShowed(id);
+      console.log(this.masterWordsObj);
+
+      if (this.masterWordsObj?.redWords.includes(id)) {
         if (this.teamMoveColor === 'red') {
           this.GameService.correctMove(id, this.teamMoveColor as string);
         } else {
           this.GameService.move('red', '01:00', id);
         }
         this.selectCart = [];
-      } else if (
-        this.masterWordsObj?.blueWords.includes(id) &&
-        !this.blueWords.includes(id)
-      ) {
-        this.blueWords.push(id);
+      } else if (this.masterWordsObj?.blueWords.includes(id)) {
         if (this.teamMoveColor === 'blue') {
           this.GameService.correctMove(id, this.teamMoveColor as string);
         } else {
@@ -286,7 +279,6 @@ export class FieldComponent implements OnInit, OnDestroy {
         this.blackWords = id;
         this.GameService.gameEnd(this.teamMoveColor as string);
       } else {
-        this.whiteWord.push(id);
         this.GameService.move(
           this.teamMoveColor === 'red' ? 'blue' : 'red',
           '01:00',
