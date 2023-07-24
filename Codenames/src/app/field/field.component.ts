@@ -122,6 +122,7 @@ export class FieldComponent implements OnInit, OnDestroy {
 
     this.socket.on('/getWordsShowed', (wordsShowed: WordsShowed) => {
       this.wordsShowed = wordsShowed;
+      console.log(wordsShowed)
       if (!this.user?.isMaster) {
         this.blueWords = wordsShowed.blueWords;
         this.redWords = wordsShowed.redWords;
