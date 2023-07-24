@@ -12,7 +12,7 @@ import { wordsArrays } from './wordArrays';
 export class GameService {
   wordsSubject$ = new Subject<string[]>();
 
-  url = 'http://localhost:5000';
+  url = 'https://codenames-server.onrender.com';
 
   masterWordsSubject$ = new Subject<MasterWords>();
 
@@ -196,6 +196,7 @@ export class GameService {
         this.blueMasterWords.splice(0, 1);
       }
     }
+    console.log(this.redMasterWords, this.blueMasterWords)
 
     this.http
       .post(`${this.url}/setMasterWord`, {

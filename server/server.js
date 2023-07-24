@@ -24,8 +24,8 @@ app.use(requestIp.mw());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200"); 
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST"); 
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   next();
 });
 let connectedUsers = [];
@@ -83,15 +83,15 @@ io.on("connection", (socket) => {
       isAdmin: isAdmin,
     };
     connectedUsers.push(user);
-    socket.emit("currentUser", user); 
+    socket.emit("currentUser", user);
   }
 
-  io.emit("connectedUsersUpdated", connectedUsers); 
+  io.emit("connectedUsersUpdated", connectedUsers);
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
     connectedUsers = connectedUsers.filter((user) => user.id !== socket.id);
-    io.emit("connectedUsersUpdated", connectedUsers); 
+    io.emit("connectedUsersUpdated", connectedUsers);
   });
 
   io.emit("/getWordArray", wordArray);
@@ -171,18 +171,24 @@ let redWords = [];
 let blackWords = 0;
 
 app.post("/setMasterWord", (req, res) => {
-  let objWords = req.body;
-  blueWords = objWords.blueWords;
-  redWords = objWords.redWords;
-  blackWords = objWords.blackWords;
+  try {
+    let objWords = req.body;
+    blueWords = objWords.blueWords;
+    redWords = objWords.redWords;
+    blackWords = objWords.blackWords;
 
-  io.emit("/getMasterWords", {
-    blueWords: blueWords,
-    redWords: redWords,
-    blackWords: blackWords,
-  });
+    io.emit("/getMasterWords", {
+      blueWords: blueWords,
+      redWords: redWords,
+      blackWords: blackWords,
+    });
 
-  res.status(200).json({ message: "Массивы слов созданны" });
+    res.status(200).json({ message: "Массивы слов созданны" });
+  } catch (error) {
+    // Обработка ошибок здесь
+    console.error("Ошибка в обработчике /setMasterWord:", error);
+    res.status(500).json({ message: "Произошла ошибка при обработке запроса" });
+  }
 });
 
 app.post("/clickOnWord", (req, res) => {
