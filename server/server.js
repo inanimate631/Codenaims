@@ -4,9 +4,8 @@ const path = require("path");
 const socketIO = require("socket.io");
 const requestIp = require("request-ip");
 const corsOptions = {
-  origin:
-    "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app", 
-  methods: ["GET", "POST"], 
+  origin: "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app", // Разрешенный источник (origin)
+  methods: ["GET", "POST"], // Разрешенные HTTP-методы
 };
 const cors = require("cors");
 
@@ -14,8 +13,7 @@ const app = express();
 const server = http.Server(app);
 const io = socketIO(server, {
   cors: {
-    origin:
-      "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app",
+    origin: "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app",
     methods: ["GET", "POST"],
   },
 });
@@ -26,11 +24,8 @@ app.use(requestIp.mw());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+  res.setHeader("Access-Control-Allow-Origin", "https://64b938546181320c8d17cdd8--codenames-for-mavzolei.netlify.app"); 
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST"); 
   next();
 });
 let connectedUsers = [];
@@ -66,6 +61,8 @@ let isTeamMoveTimer = false;
 let time;
 let teamColor;
 
+let isGameIsPause = false;
+
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
@@ -86,15 +83,15 @@ io.on("connection", (socket) => {
       isAdmin: isAdmin,
     };
     connectedUsers.push(user);
-    socket.emit("currentUser", user); // Отправляем отдельного пользователя только текущему клиенту
+    socket.emit("currentUser", user); 
   }
 
-  io.emit("connectedUsersUpdated", connectedUsers); // Отправляем обновленный список подключенных пользователей всем клиентам
+  io.emit("connectedUsersUpdated", connectedUsers); 
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
     connectedUsers = connectedUsers.filter((user) => user.id !== socket.id);
-    io.emit("connectedUsersUpdated", connectedUsers); // Отправляем обновленный список подключенных пользователей всем клиентам
+    io.emit("connectedUsersUpdated", connectedUsers); 
   });
 
   io.emit("/getWordArray", wordArray);
@@ -117,6 +114,7 @@ io.on("connection", (socket) => {
   io.emit("/getIsTeamMoveTimer", isTeamMoveTimer);
 
   io.emit("/getTime", { time: time, teamColor: teamColor });
+  io.emit("/getIsGamePause", isGameIsPause);
 });
 
 app.post("/updateConnectedUsers", (req, res) => {
@@ -300,15 +298,18 @@ app.post("/setIsTeamMoveTimer", (req, res) => {
 let timerSubscription;
 
 app.post("/setTime", (req, res) => {
+  isGameIsPause = false;
+
   timer(req.body.time, req.body.teamColor);
-  io.emit("/getIsGamePause", false);
+  io.emit("/getIsGamePause", isGameIsPause);
   res.status(200).json({ message: "set time" });
 });
 
 app.post("/clearTime", (req, res) => {
   if (req.body.clearTimer === true) {
+    isGameIsPause = true;
     clearInterval(timerSubscription);
-    io.emit("/getIsGamePause", true);
+    io.emit("/getIsGamePause", isGameIsPause);
   }
 
   res.status(200).json({ message: "timer stop" });

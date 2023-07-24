@@ -10,14 +10,7 @@ import { selectMainUser, selectUsersArray } from '../state/selectors';
   styleUrls: ['./new-player.component.scss'],
 })
 export class NewPlayerComponent {
-  user: User = {
-    id: '0',
-    name: 'NIKPOMEN9i',
-    color: '#fff',
-    isMaster: false,
-    role: 'Spectators',
-    isAdmin: false,
-  };
+  user: User | null = null;
   name: string = '';
   usersArray: User[] = [];
 

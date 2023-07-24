@@ -9,14 +9,7 @@ import { Socket } from 'ngx-socket-io';
   providedIn: 'root',
 })
 export class UserService {
-  user: User = {
-    id: '0',
-    name: 'NIKPOMEN9i',
-    color: '#fff',
-    isMaster: false,
-    role: 'Spectators',
-    isAdmin: false,
-  };
+  user: User | null = null;
   isEditing = false;
   usersArray!: User[];
 
@@ -39,7 +32,7 @@ export class UserService {
     this.socket.on('connectedUsersUpdated', (users: User[]) => {
       this.usersArray = users;
       this.usersArray = this.usersArray.filter(
-        (user) => user.id !== this.user.id
+        (user) => user.id !== (this.user as User).id
       );
       this.store.dispatch(
         PostsActions.connectUsers({
@@ -54,7 +47,7 @@ export class UserService {
       return Math.floor(Math.random() * max);
     }
     const updatedObject = {
-      ...this.user,
+      ...(this.user as User),
       color: `rgb(${random(256)}, ${random(256)}, ${random(256)})`,
     };
     return this.updateUser(updatedObject);
@@ -65,10 +58,10 @@ export class UserService {
   }
 
   stopEditing(name: string) {
-    if (this.user.name !== name) {
+    if ((this.user as User).name !== name) {
       this.isEditing = false;
       const updatedObject = {
-        ...this.user,
+        ...(this.user as User),
         name: name,
       };
       this.updateUser(updatedObject);
@@ -77,7 +70,7 @@ export class UserService {
 
   changeUserRole(newRole: string, isMaster: boolean) {
     const updatedObject = {
-      ...this.user,
+      ...(this.user as User),
       role: newRole,
       isMaster: isMaster,
     };
@@ -95,7 +88,7 @@ export class UserService {
     });
     const updateUsers = [...this.usersArray];
     updateUsers.push(newUser);
-    const url = 'https://codenames-server.onrender.com/updateConnectedUsers';
+    const url = 'http://localhost:5000/updateConnectedUsers';
     this.http.post(url, updateUsers, { headers }).subscribe(
       () => {},
       (error) => {
