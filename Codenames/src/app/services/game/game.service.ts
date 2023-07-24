@@ -66,7 +66,6 @@ export class GameService {
       }
     });
     this.socket.on('/getTeamMoveColor', (color: string) => {
-      console.log(color);
       this.teamMoveColor.next(color);
       this.teamColor = color;
     });
@@ -98,49 +97,56 @@ export class GameService {
   }
 
   createWordsPack() {
-    const words: string[] = [];
-    const topics: number[] = [];
-    while (words.length < 25) {
-      if (words.length < 15) {
-        const length = words.length;
-        let randomPack = this.random(wordsArrays[this.gameDifficulty].length);
-        while (topics.includes(randomPack)) {
-          randomPack = this.random(wordsArrays[this.gameDifficulty].length);
-        }
-        topics.push(randomPack);
-        while (words.length < length + 2) {
-          let word =
-            wordsArrays[this.gameDifficulty][randomPack][
-              this.random(wordsArrays[this.gameDifficulty][randomPack].length)
-            ];
-          if (!words.includes(word)) {
-            words.push(word);
+    return new Promise((resolve, reject) => {
+      const words: string[] = [];
+      const topics: number[] = [];
+
+      while (words.length < 25) {
+        if (words.length < 15) {
+          const length = words.length;
+          let randomPack = this.random(wordsArrays[this.gameDifficulty].length);
+          while (topics.includes(randomPack)) {
+            randomPack = this.random(wordsArrays[this.gameDifficulty].length);
           }
-        }
-      } else if (words.length > 15) {
-        while (words.length < 25) {
-          let word =
-            wordsArrays[this.gameDifficulty][
-              wordsArrays[this.gameDifficulty].length - 1
-            ][
-              this.random(
-                wordsArrays[this.gameDifficulty][
-                  wordsArrays[this.gameDifficulty].length - 1
-                ].length
-              )
-            ];
-          if (!words.includes(word)) {
-            words.push(word);
+          topics.push(randomPack);
+          while (words.length < length + 2) {
+            let word =
+              wordsArrays[this.gameDifficulty][randomPack][
+                this.random(wordsArrays[this.gameDifficulty][randomPack].length)
+              ];
+            if (!words.includes(word)) {
+              words.push(word);
+            }
+          }
+        } else if (words.length > 15) {
+          while (words.length < 25) {
+            let word =
+              wordsArrays[this.gameDifficulty][
+                wordsArrays[this.gameDifficulty].length - 1
+              ][
+                this.random(
+                  wordsArrays[this.gameDifficulty][
+                    wordsArrays[this.gameDifficulty].length - 1
+                  ].length
+                )
+              ];
+            if (!words.includes(word)) {
+              words.push(word);
+            }
           }
         }
       }
-    }
-    this.http.post(`${this.url}/wordArray`, [...words]).subscribe(
-      () => {},
-      (error) => {
-        console.error('Error:', error);
-      }
-    );
+
+      this.http.post(`${this.url}/wordArray`, [...words]).subscribe(
+        () => {
+          resolve(true);
+        },
+        (error) => {
+          console.error('Error:', error);
+          reject(error);
+        }
+      );
+    });
   }
 
   createMasterWords() {
@@ -196,7 +202,6 @@ export class GameService {
         this.blueMasterWords.splice(0, 1);
       }
     }
-    console.log(this.redMasterWords, this.blueMasterWords)
 
     this.http
       .post(`${this.url}/setMasterWord`, {

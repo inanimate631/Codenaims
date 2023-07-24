@@ -185,9 +185,9 @@ app.post("/setMasterWord", (req, res) => {
 
     res.status(200).json({ message: "Массивы слов созданны" });
   } catch (error) {
-    // Обработка ошибок здесь
-    console.error("Ошибка в обработчике /setMasterWord:", error);
-    res.status(500).json({ message: "Произошла ошибка при обработке запроса" });
+    
+    console.error("Error on /setMasterWord:", error);
+    res.status(500).json({ message: "Error on /setMasterWord" });
   }
 });
 

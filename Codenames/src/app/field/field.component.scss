@@ -9,6 +9,7 @@
 }
 
 .words {
+  min-width: 20%;
   display: flex;
   font-size: 22px;
   justify-content: center;
@@ -18,8 +19,10 @@
   margin: 10px;
   color: #262626;
   font-weight: 1000;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   border: 2px solid #d9d9d9;
+  word-break: break-all;
+  text-align: center;
 }
 
 .black {
@@ -90,7 +93,7 @@
 }
 
 .showed {
-  opacity:0.2;
+  opacity: 0.2;
 }
 
 @keyframes lineAnim {
