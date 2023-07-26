@@ -4,7 +4,7 @@ const path = require("path");
 const socketIO = require("socket.io");
 const requestIp = require("request-ip");
 const corsOptions = {
-  origin: "https://inanmate631.github.io/Codenames", // Разрешенный источник (origin)
+  origin: "https://inanimate631.github.io/Codenames", // Разрешенный источник (origin)
   methods: ["GET", "POST"], // Разрешенные HTTP-методы
 };
 const cors = require("cors");
@@ -13,7 +13,7 @@ const app = express();
 const server = http.Server(app);
 const io = socketIO(server, {
   cors: {
-    origin: "https://inanmate631.github.io/Codenames",
+    origin: "https://inanimate631.github.io/Codenames",
     methods: ["GET", "POST"],
   },
 });
@@ -24,7 +24,7 @@ app.use(requestIp.mw());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://inanmate631.github.io/Codenames");
+  res.setHeader("Access-Control-Allow-Origin", "https://inanimate631.github.io/Codenames");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   next();
 });
