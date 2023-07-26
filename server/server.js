@@ -32,6 +32,8 @@ app.use((req, res, next) => {
   next();
 });
 let connectedUsers = [];
+let users = [];
+
 let wordArray = [];
 
 let clickOnWord = null;
@@ -76,7 +78,7 @@ io.on("connection", (socket) => {
     isAdmin = true;
   }
 
-  let user = connectedUsers.find((user) => user.id === userIp);
+  let user = users.find((user) => user.id === userIp);
   if (!user) {
     user = {
       id: userIp,
@@ -87,6 +89,7 @@ io.on("connection", (socket) => {
       isAdmin: isAdmin,
     };
     connectedUsers.push(user);
+    users.push(user);
   } else {
     user.role = "Spectators";
     user.isMaster = false;
@@ -97,6 +100,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", userIp);
+    connectedUsers = connectedUsers.filter((user) => user.id !== userIp);
     io.emit("connectedUsersUpdated", connectedUsers);
   });
 
