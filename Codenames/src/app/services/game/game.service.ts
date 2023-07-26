@@ -100,16 +100,26 @@ export class GameService {
     return new Promise((resolve, reject) => {
       const words: string[] = [];
       const topics: number[] = [];
+      let wordsNumOfTopic = 2;
 
       while (words.length < 25) {
-        if (words.length < 15) {
+        let wordsLength;
+        if (this.gameDifficulty === 0) {
+          wordsLength = words.length - 5;
+          wordsNumOfTopic = 4;
+        } else if (this.gameDifficulty === 2) {
+          wordsLength = words.length + 10;
+        } else {
+          wordsLength = words.length;
+        }
+        if (wordsLength < 15) {
           const length = words.length;
           let randomPack = this.random(wordsArrays[this.gameDifficulty].length);
           while (topics.includes(randomPack)) {
             randomPack = this.random(wordsArrays[this.gameDifficulty].length);
           }
           topics.push(randomPack);
-          while (words.length < length + 2) {
+          while (words.length < length + wordsNumOfTopic) {
             let word =
               wordsArrays[this.gameDifficulty][randomPack][
                 this.random(wordsArrays[this.gameDifficulty][randomPack].length)
@@ -118,23 +128,25 @@ export class GameService {
               words.push(word);
             }
           }
-        } else if (words.length > 15) {
-          while (words.length < 25) {
-            let word =
-              wordsArrays[this.gameDifficulty][
-                wordsArrays[this.gameDifficulty].length - 1
-              ][
-                this.random(
-                  wordsArrays[this.gameDifficulty][
-                    wordsArrays[this.gameDifficulty].length - 1
-                  ].length
-                )
-              ];
-            if (!words.includes(word)) {
-              words.push(word);
-            }
+        } else if (wordsLength >= 15) {
+          let word =
+            wordsArrays[this.gameDifficulty][
+              wordsArrays[this.gameDifficulty].length - 1
+            ][
+              this.random(
+                wordsArrays[this.gameDifficulty][
+                  wordsArrays[this.gameDifficulty].length - 1
+                ].length
+              )
+            ];
+          if (!words.includes(word)) {
+            words.push(word);
           }
         }
+      }
+      for (let i = words.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [words[i], words[j]] = [words[j], words[i]];
       }
 
       this.http.post(`${this.url}/wordArray`, [...words]).subscribe(

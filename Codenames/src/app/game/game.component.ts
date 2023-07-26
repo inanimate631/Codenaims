@@ -48,7 +48,6 @@ export class GameComponent implements OnInit {
 
   async gameStart() {
     this.gameService.createMasterWords();
-    this.gameService.createWordsPack();
     await this.gameService.createWordsPack();
     this.gameService.move(['red', 'blue'][this.gameService.random(2)], '02:00');
     this.btnName = 'Restart game';
