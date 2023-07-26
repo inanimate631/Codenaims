@@ -91,7 +91,6 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", userIp);
-    connectedUsers = connectedUsers.filter((user) => user.id !== userIp);
     io.emit("connectedUsersUpdated", connectedUsers);
   });
 
@@ -113,7 +112,6 @@ io.on("connection", (socket) => {
   io.emit("/getTeamEndTurn", teamEndTurn);
   io.emit("/getIsGameEnd", isGameEnd);
   io.emit("/getIsTeamMoveTimer", isTeamMoveTimer);
-
   io.emit("/getTime", { time: time, teamColor: teamColor });
   io.emit("/getIsGamePause", isGameIsPause);
 });
