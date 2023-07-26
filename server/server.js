@@ -67,7 +67,7 @@ let teamColor;
 let isGameIsPause = false;
 
 io.on("connection", (socket) => {
-  const userIp = socket.handshake.headers["x-forwarded-for"];
+  const userIp = socket.handshake.headers["x-forwarded-for"].split(", ")[0];
   console.log("User connected:", userIp);
 
   if (connectedUsers.length > 0) {
