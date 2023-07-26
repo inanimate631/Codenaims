@@ -77,7 +77,6 @@ io.on("connection", (socket) => {
   }
 
   let user = connectedUsers.find((user) => user.id === userIp);
-  console.log(user);
   if (!user) {
     user = {
       id: userIp,
@@ -88,9 +87,11 @@ io.on("connection", (socket) => {
       isAdmin: isAdmin,
     };
     connectedUsers.push(user);
+  } else {
+    user.role = "Spectators";
+    user.isMaster = false;
   }
 
-  console.log(connectedUsers);
   socket.emit("currentUser", user);
   io.emit("connectedUsersUpdated", connectedUsers);
 
