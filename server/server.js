@@ -88,12 +88,13 @@ io.on("connection", (socket) => {
       role: "Spectators",
       isAdmin: isAdmin,
     };
-    connectedUsers.push(user);
     users.push(user);
   } else {
     user.role = "Spectators";
     user.isMaster = false;
   }
+  console.log(users);
+  connectedUsers.push(user);
 
   socket.emit("currentUser", user);
   io.emit("connectedUsersUpdated", connectedUsers);
