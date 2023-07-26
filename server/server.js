@@ -128,9 +128,17 @@ io.on("connection", (socket) => {
 });
 
 app.post("/updateConnectedUsers", (req, res) => {
-  const users = req.body;
-  if (Array.isArray(users)) {
-    connectedUsers = users;
+  const updateUsers = req.body;
+  if (Array.isArray(updateUsers)) {
+    connectedUsers = updateUsers;
+    updateUsers.forEach((updateUser) => {
+      let userIndex = users.findIndex(
+        (userInUser) => userInUser.id === updateUser.id
+      );
+      if (userIndex >= 0) {
+        users[userIndex] = updateUser;
+      }
+    });
     io.emit("connectedUsersUpdated", connectedUsers);
     io.emit("/getMasterWords", {
       blueWords: blueWords,
