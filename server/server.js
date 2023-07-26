@@ -4,8 +4,7 @@ const path = require("path");
 const socketIO = require("socket.io");
 const requestIp = require("request-ip");
 const corsOptions = {
-  origin:
-    "http://localhost:4200", // Разрешенный источник (origin)
+  origin: "https://64be81348f51ed045ab215a0--astonishing-semolina-2e256a.netlify.app", // Разрешенный источник (origin)
   methods: ["GET", "POST"], // Разрешенные HTTP-методы
 };
 const cors = require("cors");
@@ -14,8 +13,7 @@ const app = express();
 const server = http.Server(app);
 const io = socketIO(server, {
   cors: {
-    origin:
-      "http://localhost:4200",
+    origin: "https://64be81348f51ed045ab215a0--astonishing-semolina-2e256a.netlify.app",
     methods: ["GET", "POST"],
   },
 });
@@ -26,7 +24,7 @@ app.use(requestIp.mw());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.setHeader("Access-Control-Allow-Origin", "https://64be81348f51ed045ab215a0--astonishing-semolina-2e256a.netlify.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   next();
 });
@@ -187,6 +185,7 @@ app.post("/setMasterWord", (req, res) => {
 
     res.status(200).json({ message: "Массивы слов созданны" });
   } catch (error) {
+    
     console.error("Error on /setMasterWord:", error);
     res.status(500).json({ message: "Error on /setMasterWord" });
   }
