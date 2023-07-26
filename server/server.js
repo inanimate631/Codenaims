@@ -64,7 +64,8 @@ let teamColor;
 let isGameIsPause = false;
 
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+  const userIp = socket.handshake.headers["x-forwarded-for"] || socket.request.connection.remoteAddress;
+  console.log("User connected:", userIp);
 
   if (connectedUsers.length > 0) {
     isAdmin = false;
@@ -72,10 +73,10 @@ io.on("connection", (socket) => {
     isAdmin = true;
   }
 
-  let user = connectedUsers.find((user) => user.id === socket.id);
+  let user = connectedUsers.find((user) => user.id === userIp);
   if (!user) {
     user = {
-      id: socket.id,
+      id: userIp,
       name: "changeName",
       color: "#fff",
       isMaster: false,
@@ -89,8 +90,8 @@ io.on("connection", (socket) => {
   io.emit("connectedUsersUpdated", connectedUsers);
 
   socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-    connectedUsers = connectedUsers.filter((user) => user.id !== socket.id);
+    console.log("User disconnected:", userIp);
+    connectedUsers = connectedUsers.filter((user) => user.id !== userIp);
     io.emit("connectedUsersUpdated", connectedUsers);
   });
 
