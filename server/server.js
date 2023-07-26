@@ -24,7 +24,10 @@ app.use(requestIp.mw());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://inanimate631.github.io");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://inanimate631.github.io"
+  );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   next();
 });
@@ -64,7 +67,7 @@ let teamColor;
 let isGameIsPause = false;
 
 io.on("connection", (socket) => {
-  const userIp = socket.handshake.headers["x-forwarded-for"] || socket.request.connection.remoteAddress;
+  const userIp = socket.handshake.headers["x-forwarded-for"];
   console.log("User connected:", userIp);
 
   if (connectedUsers.length > 0) {
@@ -184,7 +187,6 @@ app.post("/setMasterWord", (req, res) => {
 
     res.status(200).json({ message: "Массивы слов созданны" });
   } catch (error) {
-    
     console.error("Error on /setMasterWord:", error);
     res.status(500).json({ message: "Error on /setMasterWord" });
   }
