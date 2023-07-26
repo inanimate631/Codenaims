@@ -3,7 +3,6 @@ const http = require("http");
 const path = require("path");
 const socketIO = require("socket.io");
 const requestIp = require("request-ip");
-const uuid = require("uuid");
 const corsOptions = {
   origin: "https://inanimate631.github.io", // Разрешенный источник (origin)
   methods: ["GET", "POST"], // Разрешенные HTTP-методы
@@ -68,7 +67,7 @@ let teamColor;
 let isGameIsPause = false;
 
 io.on("connection", (socket) => {
-  const userIp = uuid.v4();
+  const userIp = socket.request.connection.remoteAddress;
   console.log("User connected:", userIp);
 
   if (connectedUsers.length > 0) {
