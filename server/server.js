@@ -79,7 +79,6 @@ io.on("connection", (socket) => {
   }
 
   let user = connectedUsers.find((user) => user.id === userIp);
-  console.log(user.id);
   console.log(user);
   if (!user) {
     user = {
