@@ -67,7 +67,9 @@ let teamColor;
 let isGameIsPause = false;
 
 io.on("connection", (socket) => {
-  const userIp = socket.handshake.headers["x-forwarded-for"];
+  const userIp =
+    socket.handshake.headers["x-forwarded-for"] ||
+    socket.request.connection.remoteAddress;
   console.log("User connected:", userIp);
 
   if (connectedUsers.length > 0) {
@@ -77,6 +79,8 @@ io.on("connection", (socket) => {
   }
 
   let user = connectedUsers.find((user) => user.id === userIp);
+  console.log(user.id);
+  console.log(user);
   if (!user) {
     user = {
       id: userIp,
@@ -87,9 +91,10 @@ io.on("connection", (socket) => {
       isAdmin: isAdmin,
     };
     connectedUsers.push(user);
-    socket.emit("currentUser", user);
   }
 
+  console.log(connectedUsers);
+  socket.emit("currentUser", user);
   io.emit("connectedUsersUpdated", connectedUsers);
 
   socket.on("disconnect", () => {
