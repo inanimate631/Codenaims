@@ -4,7 +4,7 @@ const path = require("path");
 const socketIO = require("socket.io");
 const requestIp = require("request-ip");
 const corsOptions = {
-  origin: "http://localhost:4200", // Разрешенный источник (origin)
+  origin: "https://inanimate631.github.io", // Разрешенный источник (origin)
   methods: ["GET", "POST"], // Разрешенные HTTP-методы
 };
 const cors = require("cors");
@@ -13,7 +13,7 @@ const app = express();
 const server = http.Server(app);
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:4200",
+    origin: "https://inanimate631.github.io",
     methods: ["GET", "POST"],
   },
 });
@@ -26,7 +26,7 @@ app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "http://localhost:4200"
+    "https://inanimate631.github.io"
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   next();
