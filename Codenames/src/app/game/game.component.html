@@ -1,6 +1,8 @@
-<button class="button" (click)="gameStart()" *ngIf="isAdmin">
-  {{ btnName }}
-</button>
+<div class="btn__wrapper">
+  <button class="button" (click)="gameStart()" *ngIf="isAdmin">
+    {{ btnName }}
+  </button>
+</div>
 
 <button class="settings-btn" (click)="showBlock = !showBlock">
   <img

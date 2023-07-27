@@ -4,7 +4,7 @@ const path = require("path");
 const socketIO = require("socket.io");
 const requestIp = require("request-ip");
 const corsOptions = {
-  origin: "https://inanimate631.github.io", // Разрешенный источник (origin)
+  origin: "http://localhost:4200", // Разрешенный источник (origin)
   methods: ["GET", "POST"], // Разрешенные HTTP-методы
 };
 const cors = require("cors");
@@ -13,7 +13,7 @@ const app = express();
 const server = http.Server(app);
 const io = socketIO(server, {
   cors: {
-    origin: "https://inanimate631.github.io",
+    origin: "http://localhost:4200",
     methods: ["GET", "POST"],
   },
 });
@@ -26,7 +26,7 @@ app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://inanimate631.github.io"
+    "http://localhost:4200"
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   next();
@@ -69,7 +69,8 @@ let teamColor;
 let isGameIsPause = false;
 
 io.on("connection", (socket) => {
-  const userIp = socket.handshake.headers["x-forwarded-for"].split(", ")[0];
+  //handshake.headers["x-forwarded-for"].split(", ")[0];
+  const userIp = socket.id
   console.log("User connected:", userIp);
 
   if (connectedUsers.length > 0) {
@@ -93,7 +94,6 @@ io.on("connection", (socket) => {
     user.role = "Spectators";
     user.isMaster = false;
   }
-  console.log(users);
   connectedUsers.push(user);
 
   socket.emit("currentUser", user);

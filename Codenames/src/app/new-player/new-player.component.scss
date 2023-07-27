@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   color: #c7d0cc;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   z-index: 4;
 }
 
@@ -41,4 +41,13 @@ input {
 .main__user {
   display: flex;
   align-items: center;
+}
+
+@media (max-width: 750px) {
+  .user__wrapper {
+    bottom: 0;
+    left: 0;
+    top: initial;
+    right: initial;
+  }
 }

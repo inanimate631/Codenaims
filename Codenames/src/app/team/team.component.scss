@@ -2,10 +2,11 @@
   overflow: hidden;
   top: 15%;
   position: absolute;
-  width: 12%;
+  width: 14%;
   max-width: 160px;
   height: 60%;
   z-index: 4;
+  min-width: 145px;
 }
 
 .red {
@@ -86,6 +87,7 @@ input {
   left: 15%;
   font-size: 256px;
   user-select: none;
+  z-index: -2;
 }
 
 .word__info {
@@ -209,5 +211,14 @@ input {
   }
   100% {
     width: 98%;
+  }
+}
+
+@media (max-width: 750px) {
+  .container {
+    top: 0;
+    width: 50%;
+    height: 30%;
+    max-width: inherit;
   }
 }

@@ -88,7 +88,7 @@ export class UserService {
     });
     const updateUsers = [...this.usersArray];
     updateUsers.push(newUser);
-    const url = 'https://codenames-server.onrender.com/updateConnectedUsers';
+    const url = 'http://localhost:5000/updateConnectedUsers';
     this.http.post(url, updateUsers, { headers }).subscribe(
       () => {},
       (error) => {

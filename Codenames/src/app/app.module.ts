@@ -17,7 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const config = {
-  url: 'https://codenames-server.onrender.com',
+  url: 'http://localhost:5000',
   options: {},
 };
 

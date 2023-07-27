@@ -1,3 +1,12 @@
+.btn__wrapper {
+  position: fixed;
+  bottom: 3.5%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 4;
+}
+
 .button {
   display: inline-block;
   padding: 20px 40px;
@@ -11,10 +20,6 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  position: absolute;
-  bottom: 3.5%;
-  left: 43%;
-  z-index: 4;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -398,4 +403,10 @@
     57.20925% 42.53029%,
     56.87342% 42.46916%
   );
+}
+
+@media (max-width: 380px) {
+  .setting {
+    padding-right: 0px;
+  }
 }
