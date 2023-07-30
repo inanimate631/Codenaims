@@ -1,0 +1,19 @@
+.container {
+  background-color: #292929;
+  height: 100vh;
+  width: 100vw;
+}
+
+.gameEnd {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(57, 115, 173, 0.2),
+    rgba(41, 41, 41, 0.2)
+  );
+  z-index: 2;
+}

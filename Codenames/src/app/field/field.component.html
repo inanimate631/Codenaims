@@ -1,0 +1,32 @@
+<div class="container">
+  <div
+    *ngFor="let word of words; let i = index"
+    class="words"
+    (click)="clickOnWord(i)"
+    [class.black]="i === blackWords"
+    [class.blue]="blueWords.includes(i)"
+    [class.red]="redWords.includes(i)"
+    [class.white]="whiteWord.includes(i)"
+    [class.anim]="i === clickedWord"
+    [class.showed]="isShowed(i)"
+  >
+    {{ word }}
+    <ng-container *ngIf="isIdInSelectCart(i)">
+      <div class="colors">
+        <div
+          class="color"
+          *ngFor="let color of selectCart"
+          [style.backgroundColor]="color.color"
+          [hidden]="i !== color.id"
+        ></div>
+      </div>
+    </ng-container>
+    <div
+      class="progress-line"
+      *ngIf="isAllPlayersChoice(i)"
+      [ngStyle]="{
+        'background-color': teamMoveColor === 'red' ? '#f81717' : '#0053a7'
+      }"
+    ></div>
+  </div>
+</div>

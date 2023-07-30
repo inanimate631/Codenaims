@@ -1,0 +1,53 @@
+.user__wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #4c5866;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #c7d0cc;
+  font-family: "Montserrat", sans-serif;
+  z-index: 4;
+}
+
+.user__color-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  margin-left: 10px;
+  display: block;
+}
+
+.user__name-btn {
+  font-size: 18px;
+  color: #c7d0cc;
+  width: min-content;
+  background-color: #4c5866;
+  border: none;
+}
+
+input {
+  outline: none;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.main__user {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 750px) {
+  .user__wrapper {
+    bottom: 0;
+    left: 0;
+    top: initial;
+    right: initial;
+  }
+}
